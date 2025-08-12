@@ -12,10 +12,10 @@ def main():
     all_rows = []
     for loc in SERVICE_AREAS:
         for kw in KEYWORDS:
-            if GOOGLE_KEY:
+            if GOOGLE_KEY not in (None,""):
                 for r in google_text_search(GOOGLE_KEY, kw, loc):
                     upsert_company(DB_PATH, r); all_rows.append(r)
-            if YELP_KEY:
+            if YELP_KEY not in (None,""):
                 for r in yelp_text_search(YELP_KEY, kw, loc):
                     upsert_company(DB_PATH, r); all_rows.append(r)
 
