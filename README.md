@@ -133,10 +133,10 @@ score =
   0.15 * license_bonus
 ```
 
-* **rating**: 0–5 stars
+* **rating**: 0-5 stars
 * **review\_count**: log-scaled
-* **permits\_24mo**: normalized 0–1 within dataset
-* **years\_in\_business**: normalized 0–1 within dataset
+* **permits\_24mo**: normalized 0-1 within dataset
+* **years\_in\_business**: normalized 0-1 within dataset
 * **license\_bonus**: 1.0 if active license, else 0
 
 ---
@@ -186,4 +186,4 @@ flowchart LR
 
 ## License
 
-MIT License – see [LICENSE](LICENSE) for details.
+MIT License - see [LICENSE](LICENSE) for details.
