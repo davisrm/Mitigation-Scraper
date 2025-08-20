@@ -10,7 +10,11 @@ VENV    ?= .venv
 PYTHON  := $(VENV)/bin/python
 ACTIVATE:= . $(VENV)/bin/activate
 
-.PHONY: help venv crawl ui clean-db reset print-env
+EMAIL_MAX_PAGES ?= 5
+EMAIL_SLEEP_S   ?= 0.25
+EMAIL_LIMIT     ?= 200
+
+.PHONY: help venv crawl ui clean-db reset print-env emails
 
 help:
 	@echo "make crawl     - Run mitigator"
@@ -39,3 +43,7 @@ reset: clean-db crawl ui
 print-env:
 	@echo "DB_PATH=$(DB_PATH)"
 	@echo "CSV_OUT=$(CSV_OUT)"
+
+emails:
+	$(ACTIVATE) && EMAIL_MAX_PAGES=$(EMAIL_MAX_PAGES) EMAIL_SLEEP_S=$(EMAIL_SLEEP_S) EMAIL_LIMIT=$(EMAIL_LIMIT) \
+	$(PYTHON) -m mitigator.enrich_emails

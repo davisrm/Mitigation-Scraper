@@ -41,10 +41,11 @@ def main():
         category_q = st.text_input("Category contains", placeholder="mold, fire, water…")
         cities = sorted([c for c in df["city"].dropna().unique() if c])
         city_sel = st.multiselect("City", options=cities)
+        contains_email = st.checkbox("Only Contains Email", value=False)
         min_score = st.number_input("Min score", min_value=0.0, max_value=10.0, value=0.0, step=0.1)
         max_reviews = st.number_input("Max reviews", min_value=0, value=1000, step=50)
         min_reviews = st.number_input("Min reviews", min_value=0, value=0, step=1)
-        sort_by = st.selectbox("Sort by", options=["score","rating","review_count","years_in_business","permits_24mo","name"])
+        sort_by = st.selectbox("Sort by", options=["score","rating","review_count","name"])
         ascending = st.checkbox("Ascending", value=False)
         top_n = st.slider("Rows to show", 10, 1000, 200, step=10)
         st.markdown("---")
@@ -54,6 +55,7 @@ def main():
 
     # Apply filters
     view = df.copy()
+    print(df)
     if text_query:
         tq = text_query.lower()
         mask = (
@@ -81,6 +83,8 @@ def main():
     if sort_by not in view.columns:
         sort_by = "score"
     view = view.sort_values(by=sort_by, ascending=ascending)
+    if contains_email:
+        view = view[view["email"].notna()]
 
     # Summary tiles
     k1, k2, k3, k4 = st.columns(4)
@@ -91,7 +95,7 @@ def main():
 
     st.dataframe(
         view.head(top_n)[[
-            "name","score","rating","review_count","address","categories","website","phone","years_in_business","permits_24mo","license_status"
+            "name","score","rating","review_count","address","categories","website","phone", "email"
         ]],
         use_container_width=True,
     )

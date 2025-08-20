@@ -9,15 +9,19 @@ def db_init(db_path: str):
     cur = con.cursor()
     cur.execute("""
     CREATE TABLE IF NOT EXISTS companies (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      source TEXT, source_id TEXT,
-      name TEXT, phone TEXT, website TEXT, address TEXT,
-      lat REAL, lng REAL, categories TEXT,
-      rating REAL, review_count INTEGER,
-      license_number TEXT, license_status TEXT, years_in_business INTEGER,
-      permits_24mo INTEGER,
-      score REAL, last_seen TEXT,
-      entity_key TEXT
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        source TEXT, source_id TEXT,
+        name TEXT, phone TEXT, website TEXT, address TEXT,
+        lat REAL, lng REAL, categories TEXT,
+        rating REAL, review_count INTEGER,
+        license_number TEXT, license_status TEXT, years_in_business INTEGER,
+        permits_24mo INTEGER,
+        score REAL, last_seen TEXT,
+        entity_key TEXT,
+        email TEXT,                -- NEW
+        email_source TEXT,         -- NEW: website|whois|guess+smtp|third_party
+        email_confidence REAL,     -- NEW: 0..1
+        email_last_seen TEXT       -- NEW: YYYY-MM-DD
     );
     """)
     # Add entity_key if it was missing (older DBs)
